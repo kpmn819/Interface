@@ -18,6 +18,7 @@ class Table:
 				
 				self.e.grid(row=i, column=j)
 				self.e.insert(END, lst[i][j])
+
 def get_file(list_file):
     global row_count
     global file_error
@@ -54,6 +55,12 @@ lst = [('Question','Right','Wrong A','Wrong B'),
 	(3,'Vaishnavi','Mumbai',20),
 	(19,'Rachna','Mumbai',21),
 	(5,'Shubham','Delhi',21)]
+
+lst_new = [['Question','Right','Wrong A','Wrong B'],
+	[2,'Aaryan','Pune',18],
+	[3,'Vaishnavi','Mumbai',20],
+	[19,'Rachna','Mumbai',21],
+	[5,'Shubham','Delhi',21]]
 
 try:
     [questions] = get_file(list_file)
