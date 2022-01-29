@@ -1,1 +1,1 @@
-# Interface
+# Interface for the arcade project
