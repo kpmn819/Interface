@@ -17,7 +17,10 @@ class Table:
 							font=('Arial',16))
 				
 				self.e.grid(row=i, column=j)
-				self.e.insert(END, lst[i][j])
+				# row and col index
+				#self.e.insert(END, lst_org[i][j])
+				self.e.insert(END, q_list[i][j])
+
 
 def get_file(list_file):
     global row_count
@@ -50,30 +53,23 @@ def get_file(list_file):
 
 
 # take the data
-lst = [('Question','Right','Wrong A','Wrong B'),
-	(2,'Aaryan','Pune',18),
-	(3,'Vaishnavi','Mumbai',20),
-	(19,'Rachna','Mumbai',21),
-	(5,'Shubham','Delhi',21)]
 
-lst_new = [['Question','Right','Wrong A','Wrong B'],
-	[2,'Aaryan','Pune',18],
-	[3,'Vaishnavi','Mumbai',20],
-	[19,'Rachna','Mumbai',21],
-	[5,'Shubham','Delhi',21]]
+
+
 
 try:
-    [questions] = get_file(list_file)
+    [q_list] = get_file(list_file)
 except:
     print('FILE IS MISSING')
     #once this is inside a loop ADD BREAK 
 # find total number of rows and
 # columns in list
-print(questions)
 
-total_rows = len(lst)
-total_columns = len(lst[0])
 
+
+
+total_rows = len(q_list)
+total_columns = len(q_list[0])
 # create root window
 root = Tk()
 t = Table(root)
