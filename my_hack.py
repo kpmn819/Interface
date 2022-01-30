@@ -25,7 +25,7 @@ def query_database():
 		my_tree.delete(record)
 		
 	# Create a database or connect to one that exists
-	conn = sqlite3.connect('tree_crm.db')
+	conn = sqlite3.connect('questions_crm.db')
 
 	# Create a cursor instance
 	c = conn.cursor()
@@ -69,7 +69,7 @@ def search_records():
 		my_tree.delete(record)
 	
 	# Create a database or connect to one that exists
-	conn = sqlite3.connect('tree_crm.db')
+	conn = sqlite3.connect('questions_crm.db')
 
 	# Create a cursor instance
 	c = conn.cursor()
@@ -250,7 +250,7 @@ data = [
 
 # Do some database stuff
 # Create a database or connect to one that exists
-conn = sqlite3.connect('tree_crm.db')
+conn = sqlite3.connect('questions_crm.db')
 
 # Create a cursor instance
 c = conn.cursor()
@@ -354,7 +354,7 @@ my_tree.tag_configure('evenrow', background=saved_primary_color)
 
 
 # Add Record Entry Boxes
-data_frame = LabelFrame(root, text="Record")
+data_frame = LabelFrame(root, text="Info")
 data_frame.pack(fill="x", expand="yes", padx=20)
 
 fn_label = Label(data_frame, text="First Name")
@@ -410,7 +410,7 @@ def remove_one():
 	my_tree.delete(x)
 
 	# Create a database or connect to one that exists
-	conn = sqlite3.connect('tree_crm.db')
+	conn = sqlite3.connect('questions_crm.db')
 
 	# Create a cursor instance
 	c = conn.cursor()
@@ -456,7 +456,7 @@ def remove_many():
 			my_tree.delete(record)
 
 		# Create a database or connect to one that exists
-		conn = sqlite3.connect('tree_crm.db')
+		conn = sqlite3.connect('questions_crm.db')
 
 		# Create a cursor instance
 		c = conn.cursor()
@@ -491,7 +491,7 @@ def remove_all():
 			my_tree.delete(record)
 
 		# Create a database or connect to one that exists
-		conn = sqlite3.connect('tree_crm.db')
+		conn = sqlite3.connect('questions_crm.db')
 
 		# Create a cursor instance
 		c = conn.cursor()
@@ -559,7 +559,7 @@ def update_record():
 
 	# Update the database
 	# Create a database or connect to one that exists
-	conn = sqlite3.connect('tree_crm.db')
+	conn = sqlite3.connect('questions_crm.db')
 
 	# Create a cursor instance
 	c = conn.cursor()
@@ -605,7 +605,7 @@ def update_record():
 def add_record():
 	# Update the database
 	# Create a database or connect to one that exists
-	conn = sqlite3.connect('tree_crm.db')
+	conn = sqlite3.connect('questions_crm.db')
 
 	# Create a cursor instance
 	c = conn.cursor()
@@ -646,7 +646,7 @@ def add_record():
 
 def create_table_again():
 	# Create a database or connect to one that exists
-	conn = sqlite3.connect('tree_crm.db')
+	conn = sqlite3.connect('questions_crm.db')
 
 	# Create a cursor instance
 	c = conn.cursor()
