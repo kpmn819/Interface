@@ -6,6 +6,9 @@ from tkinter import colorchooser
 from configparser import ConfigParser
 ''' this is some very slick code creates, readsa and writes
 to a database'''
+''' I have reused some code so the table names don't match
+what's going on in the program so First Name = Question
+Second Name = Right answer, Address = Wrong A, City = Wrong B'''
 root = Tk()
 root.title('Codemy.com - TreeBase')
 #root.iconbitmap('c:/gui/codemy.ico')
@@ -44,9 +47,9 @@ def query_database():
 	for record in records:
 		# even and odd row color
 		if count % 2 == 0:
-			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[1], record[2], record[0], record[4], record[5], record[6], record[7]), tags=('evenrow',))
+			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[1], record[2], record[0], record[4], record[5], record[6]), tags=('evenrow',))
 		else:
-			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[1], record[2], record[0], record[4], record[5], record[6], record[7]), tags=('oddrow',))
+			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[1], record[2], record[0], record[4], record[5], record[6]), tags=('oddrow',))
 		# increment counter
 		count += 1
 
@@ -111,7 +114,7 @@ def lookup_records():
 	#search.iconbitmap('c:/gui/codemy.ico')
 
 	# Create label frame
-	search_frame = LabelFrame(search, text="Last Name")
+	search_frame = LabelFrame(search, text="Right Answer")
 	search_frame.pack(padx=10, pady=10)
 
 	# Add entry box
@@ -262,21 +265,19 @@ c.execute("""CREATE TABLE if not exists customers (
 	id integer,
 	address text,
 	city text,
-	state text,
-	zipcode text)
+	state text)
 	""")
 # Add dummy data to table
 '''
 for record in data:
-	c.execute("INSERT INTO customers VALUES (:first_name, :last_name, :id, :address, :city, :state, :zipcode)", 
+	c.execute("INSERT INTO customers VALUES (:first_name, :last_name, :id, :address, :city, :state)", 
 		{
 		'first_name': record[0],
 		'last_name': record[1],
 		'id': record[2],
 		'address': record[3],
 		'city': record[4],
-		'state': record[5],
-		'zipcode': record[6]
+		'state': record[5]
 		}
 		)
 '''
@@ -323,7 +324,7 @@ my_tree.pack()
 tree_scroll.config(command=my_tree.yview)
 
 # Define Our Columns
-my_tree['columns'] = ("First Name", "Last Name", "ID", "Address", "City", "State", "Zipcode")
+my_tree['columns'] = ("First Name", "Last Name", "ID", "Address", "City", "State")
 
 # Format Our Columns
 my_tree.column("#0", width=0, stretch=NO)
@@ -333,18 +334,18 @@ my_tree.column("ID", anchor=CENTER, width=100)
 my_tree.column("Address", anchor=CENTER, width=140)
 my_tree.column("City", anchor=CENTER, width=140)
 my_tree.column("State", anchor=CENTER, width=140)
-my_tree.column("Zipcode", anchor=CENTER, width=140)
+#my_tree.column("Zipcode", anchor=CENTER, width=140)
 
 
 # Create Headings
 my_tree.heading("#0", text="", anchor=W)
-my_tree.heading("First Name", text="First Name", anchor=W)
-my_tree.heading("Last Name", text="Last Name", anchor=W)
+my_tree.heading("First Name", text="Question", anchor=W)
+my_tree.heading("Last Name", text="Right Answer", anchor=W)
 my_tree.heading("ID", text="ID", anchor=CENTER)
-my_tree.heading("Address", text="Address", anchor=CENTER)
-my_tree.heading("City", text="City", anchor=CENTER)
+my_tree.heading("Address", text="Wrong A", anchor=CENTER)
+my_tree.heading("City", text="Wrong B", anchor=CENTER)
 my_tree.heading("State", text="State", anchor=CENTER)
-my_tree.heading("Zipcode", text="Zipcode", anchor=CENTER)
+#my_tree.heading("Zipcode", text="Zipcode", anchor=CENTER)
 
 
 # Create Striped Row Tags
@@ -357,12 +358,12 @@ my_tree.tag_configure('evenrow', background=saved_primary_color)
 data_frame = LabelFrame(root, text="Info")
 data_frame.pack(fill="x", expand="yes", padx=20)
 
-fn_label = Label(data_frame, text="First Name")
+fn_label = Label(data_frame, text="Question")
 fn_label.grid(row=0, column=0, padx=10, pady=10)
 fn_entry = Entry(data_frame)
 fn_entry.grid(row=0, column=1, padx=10, pady=10)
 
-ln_label = Label(data_frame, text="Last Name")
+ln_label = Label(data_frame, text="Right Answer")
 ln_label.grid(row=0, column=2, padx=10, pady=10)
 ln_entry = Entry(data_frame)
 ln_entry.grid(row=0, column=3, padx=10, pady=10)
@@ -372,12 +373,12 @@ id_label.grid(row=0, column=4, padx=10, pady=10)
 id_entry = Entry(data_frame)
 id_entry.grid(row=0, column=5, padx=10, pady=10)
 
-address_label = Label(data_frame, text="Address")
+address_label = Label(data_frame, text="Wrong A")
 address_label.grid(row=1, column=0, padx=10, pady=10)
 address_entry = Entry(data_frame)
 address_entry.grid(row=1, column=1, padx=10, pady=10)
 
-city_label = Label(data_frame, text="City")
+city_label = Label(data_frame, text="Wrong B")
 city_label.grid(row=1, column=2, padx=10, pady=10)
 city_entry = Entry(data_frame)
 city_entry.grid(row=1, column=3, padx=10, pady=10)
@@ -387,10 +388,10 @@ state_label.grid(row=1, column=4, padx=10, pady=10)
 state_entry = Entry(data_frame)
 state_entry.grid(row=1, column=5, padx=10, pady=10)
 
-zipcode_label = Label(data_frame, text="Zipcode")
+'''zipcode_label = Label(data_frame, text="Zipcode")
 zipcode_label.grid(row=1, column=6, padx=10, pady=10)
 zipcode_entry = Entry(data_frame)
-zipcode_entry.grid(row=1, column=7, padx=10, pady=10)
+zipcode_entry.grid(row=1, column=7, padx=10, pady=10)'''
 
 # Move Row Up
 def up():
@@ -522,7 +523,7 @@ def clear_entries():
 	address_entry.delete(0, END)
 	city_entry.delete(0, END)
 	state_entry.delete(0, END)
-	zipcode_entry.delete(0, END)
+	#zipcode_entry.delete(0, END)
 
 
 # Select Record
@@ -534,7 +535,7 @@ def select_record(e):
 	address_entry.delete(0, END)
 	city_entry.delete(0, END)
 	state_entry.delete(0, END)
-	zipcode_entry.delete(0, END)
+	#zipcode_entry.delete(0, END)
 
 	# Grab record Number
 	selected = my_tree.focus()
@@ -548,14 +549,14 @@ def select_record(e):
 	address_entry.insert(0, values[3])
 	city_entry.insert(0, values[4])
 	state_entry.insert(0, values[5])
-	zipcode_entry.insert(0, values[6])
+	#zipcode_entry.insert(0, values[6])
 
 # Update record
 def update_record():
 	# Grab the record number
 	selected = my_tree.focus()
 	# Update record
-	my_tree.item(selected, text="", values=(fn_entry.get(), ln_entry.get(), id_entry.get(), address_entry.get(), city_entry.get(), state_entry.get(), zipcode_entry.get(),))
+	my_tree.item(selected, text="", values=(fn_entry.get(), ln_entry.get(), id_entry.get(), address_entry.get(), city_entry.get(), state_entry.get(),))
 
 	# Update the database
 	# Create a database or connect to one that exists
@@ -569,8 +570,8 @@ def update_record():
 		last_name = :last,
 		address = :address,
 		city = :city,
-		state = :state,
-		zipcode = :zipcode
+		state = :state
+		
 
 		WHERE oid = :oid""",
 		{
@@ -579,7 +580,6 @@ def update_record():
 			'address': address_entry.get(),
 			'city': city_entry.get(),
 			'state': state_entry.get(),
-			'zipcode': zipcode_entry.get(),
 			'oid': id_entry.get(),
 		})
 	
@@ -599,7 +599,7 @@ def update_record():
 	address_entry.delete(0, END)
 	city_entry.delete(0, END)
 	state_entry.delete(0, END)
-	zipcode_entry.delete(0, END)
+	#zipcode_entry.delete(0, END)
 
 # add new record to database
 def add_record():
@@ -611,7 +611,7 @@ def add_record():
 	c = conn.cursor()
 
 	# Add New Record
-	c.execute("INSERT INTO customers VALUES (:first, :last, :id, :address, :city, :state, :zipcode)",
+	c.execute("INSERT INTO customers VALUES (:first, :last, :id, :address, :city, :state)",
 		{
 			'first': fn_entry.get(),
 			'last': ln_entry.get(),
@@ -619,7 +619,6 @@ def add_record():
 			'address': address_entry.get(),
 			'city': city_entry.get(),
 			'state': state_entry.get(),
-			'zipcode': zipcode_entry.get(),
 		})
 	
 
@@ -636,7 +635,7 @@ def add_record():
 	address_entry.delete(0, END)
 	city_entry.delete(0, END)
 	state_entry.delete(0, END)
-	zipcode_entry.delete(0, END)
+	#zipcode_entry.delete(0, END)
 
 	# Clear The Treeview Table
 	my_tree.delete(*my_tree.get_children())
@@ -658,8 +657,7 @@ def create_table_again():
 		id integer,
 		address text,
 		city text,
-		state text,
-		zipcode text)
+		state text)
 		""")
 	
 	# Commit changes
