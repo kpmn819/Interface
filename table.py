@@ -13,8 +13,8 @@ class Table:
 		for i in range(total_rows):
 			for j in range(total_columns):
 				
-				self.e = Entry(root, width=20, fg='black',
-							font=('Arial',16))
+				self.e = Entry(root, width=50, fg='black',
+							font=('Arial',10))
 				
 				self.e.grid(row=i, column=j)
 				# row and col index
