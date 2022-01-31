@@ -12,7 +12,7 @@ Second Name = Right answer, Address = Wrong A, City = Wrong B'''
 root = Tk()
 root.title('Codemy.com - TreeBase')
 #root.iconbitmap('c:/gui/codemy.ico')
-root.geometry("1000x550")
+root.geometry("1500x550")
 
 # Read our config file and get colors
 parser = ConfigParser()
@@ -74,7 +74,7 @@ def search_records():
 	# Create a cursor instance
 	c = conn.cursor()
 
-	c.execute("SELECT rowid, * FROM questions WHERE last_name like ?", (lookup_record,))
+	c.execute("SELECT rowid, * FROM questions WHERE question like ?", (lookup_record,))
 	records = c.fetchall()
 	
 	# Add our data to the screen
@@ -110,7 +110,7 @@ def lookup_records():
 	#search.iconbitmap('c:/gui/codemy.ico')
 
 	# Create label frame
-	search_frame = LabelFrame(search, text="Right Answer")
+	search_frame = LabelFrame(search, text="Question")
 	search_frame.pack(padx=10, pady=10)
 
 	# Add entry box
@@ -295,12 +295,13 @@ tree_scroll.config(command=my_tree.yview)
 # Define Our Columns
 my_tree['columns'] = ("question", "right_ans", "ID", "wrong_a", "wrong_b")
 # Format Our Columns
+col = 300
 my_tree.column("#0", width=0, stretch=NO)
-my_tree.column("question", anchor=W, width=140)
-my_tree.column("right_ans", anchor=W, width=140)
-my_tree.column("ID", anchor=CENTER, width=100)
-my_tree.column("wrong_a", anchor=CENTER, width=140)
-my_tree.column("wrong_b", anchor=CENTER, width=140)
+my_tree.column("question", anchor=W, width=col)
+my_tree.column("right_ans", anchor=W, width=col)
+my_tree.column("ID", anchor=CENTER, width=50)
+my_tree.column("wrong_a", anchor=CENTER, width=col)
+my_tree.column("wrong_b", anchor=CENTER, width=col)
 
 # Create Headings
 my_tree.heading("#0", text="", anchor=W)
@@ -321,27 +322,27 @@ data_frame.pack(fill="x", expand="yes", padx=20)
 qu_label = Label(data_frame, text="Question")
 qu_label.grid(row=0, column=0, padx=10, pady=10)
 qu_entry = Entry(data_frame)
-qu_entry.grid(row=0, column=1, padx=10, pady=10)
+qu_entry.grid(row=0, column=1, padx=10, pady=10, ipadx = 100)
 
 ra_label = Label(data_frame, text="Right Answer")
 ra_label.grid(row=0, column=2, padx=10, pady=10)
 ra_entry = Entry(data_frame)
-ra_entry.grid(row=0, column=3, padx=10, pady=10)
+ra_entry.grid(row=0, column=3, padx=10, pady=10, ipadx = 100)
 
 id_label = Label(data_frame, text="ID")
-id_label.grid(row=0, column=4, padx=10, pady=10)
+id_label.grid(row=0, column=7, padx=10, pady=10)
 id_entry = Entry(data_frame)
-id_entry.grid(row=0, column=5, padx=10, pady=10)
+id_entry.grid(row=0, column=8, padx=10, pady=10)
 
 wa_label = Label(data_frame, text="Wrong A")
 wa_label.grid(row=1, column=0, padx=10, pady=10)
 wa_entry = Entry(data_frame)
-wa_entry.grid(row=1, column=1, padx=10, pady=10)
+wa_entry.grid(row=1, column=1, padx=10, pady=10, ipadx = 100)
 
 wb_label = Label(data_frame, text="Wrong B")
 wb_label.grid(row=1, column=2, padx=10, pady=10)
 wb_entry = Entry(data_frame)
-wb_entry.grid(row=1, column=3, padx=10, pady=10)
+wb_entry.grid(row=1, column=3, padx=10, pady=10, ipadx = 100)
 
 # Move Row Up
 def up():
@@ -612,20 +613,20 @@ update_button.grid(row=0, column=0, padx=10, pady=10)
 add_button = Button(button_frame, text="Add Record", command=add_record)
 add_button.grid(row=0, column=1, padx=10, pady=10)
 
-remove_all_button = Button(button_frame, text="Remove All Records", command=remove_all)
-remove_all_button.grid(row=0, column=2, padx=10, pady=10)
+'''remove_all_button = Button(button_frame, text="Remove All Records", command=remove_all)
+remove_all_button.grid(row=0, column=2, padx=10, pady=10)'''
 
 remove_one_button = Button(button_frame, text="Remove One Selected", command=remove_one)
 remove_one_button.grid(row=0, column=3, padx=10, pady=10)
 
-remove_many_button = Button(button_frame, text="Remove Many Selected", command=remove_many)
-remove_many_button.grid(row=0, column=4, padx=10, pady=10)
+'''remove_many_button = Button(button_frame, text="Remove Many Selected", command=remove_many)
+remove_many_button.grid(row=0, column=4, padx=10, pady=10)'''
 
-move_up_button = Button(button_frame, text="Move Up", command=up)
+'''move_up_button = Button(button_frame, text="Move Up", command=up)
 move_up_button.grid(row=0, column=5, padx=10, pady=10)
 
 move_down_button = Button(button_frame, text="Move Down", command=down)
-move_down_button.grid(row=0, column=6, padx=10, pady=10)
+move_down_button.grid(row=0, column=6, padx=10, pady=10)'''
 
 select_record_button = Button(button_frame, text="Clear Entry Boxes", command=clear_entries)
 select_record_button.grid(row=0, column=7, padx=10, pady=10)
