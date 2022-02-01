@@ -110,18 +110,29 @@ def get_file(list_file):
 
 def write_file():
 	#initialize our final list to go to file
-	final_list = []
+	
+	csv_file = open("qna_dummy.csv", "w")
+	csv_file.write('question'+','+'right answer'+','+'wrong a'+','+'wrong b')
+	csv_file.write('\n')
 	for line in my_tree.get_children():
-		each_question = []
+		each_q = []
 		i = 0
 		for value in my_tree.item(line)['values']:
+			
 			if i != 2:
-				each_question.append(value)
+				each_q.append(value)
 				print(value)
-			i += 1
+				
 
-		final_list.append(each_question)
-	
+			#csv_file.write(str(each_question) +'\n')
+			i += 1
+		csv_file.write(each_q[0] +','+each_q[1] +','+each_q[2] +','+each_q[3])
+		csv_file.write('\n')
+		csv_file.close	
+
+		#final_string = final_string + each_question
+	#csv_file.write(final_string)
+	csv_file.close
 	
 
 def search_records():
