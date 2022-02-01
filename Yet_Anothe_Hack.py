@@ -34,7 +34,8 @@ def query_database():
 
 	c.execute("SELECT rowid, * FROM questions")
 	records = c.fetchall()
-	# WE LACK THE INDEX NUMBERS HERE FROM THE FILE
+	
+	# My code to fetch from file not currently used
 	records_file = get_file(list_file)
 	# make a distinct copy of this list for later mods
 	from_file = records_file[:]
@@ -51,9 +52,9 @@ def query_database():
 		new_list.append(tuple(records_file[i]))
 	
 		i += 1
-	# ok now substitute reading from file for the db read
-	records = new_list
-	# records = id#, 'question', 'right_ans', 'wrong_a', wrong_b'
+    # uncomment this line to read from file not db
+	#records = new_list
+	
 	
 	# Add our data to the screen
 	global count
@@ -436,6 +437,7 @@ def down():
 def remove_one():
 	x = my_tree.selection()[0]
 	my_tree.delete(x)
+	write_file()
 
 	# Create a database or connect to one that exists
 	conn = sqlite3.connect('questions_new.db')
@@ -624,6 +626,7 @@ def add_record():
 	# Update the database
 	# Create a database or connect to one that exists
 	conn = sqlite3.connect('questions_new.db')
+	
 
 	# Create a cursor instance
 	c = conn.cursor()
@@ -658,6 +661,7 @@ def add_record():
 
 	# Run to pull data from database on start
 	query_database()
+	write_file()
 
 def create_table_again():
 	# Create a database or connect to one that exists
