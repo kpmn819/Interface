@@ -109,10 +109,18 @@ def get_file(list_file):
         file_error = True
 
 def write_file():
+	#initialize our final list to go to file
+	final_list = []
 	for line in my_tree.get_children():
-
+		each_question = []
+		i = 0
 		for value in my_tree.item(line)['values']:
-			print(value)
+			if i != 2:
+				each_question.append(value)
+				print(value)
+			i += 1
+
+		final_list.append(each_question)
 	
 	
 
