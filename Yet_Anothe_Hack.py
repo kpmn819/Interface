@@ -111,7 +111,7 @@ def get_file(list_file):
 def write_file():
 	#initialize our final list to go to file
 	
-	csv_file = open("qna_dummy.csv", "w")
+	csv_file = open("qna_pool.csv", "w")
 	csv_file.write('question'+','+'right answer'+','+'wrong a'+','+'wrong b')
 	csv_file.write('\n')
 	for line in my_tree.get_children():
