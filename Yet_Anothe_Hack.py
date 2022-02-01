@@ -2,18 +2,17 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 import sqlite3
+import csv
 from tkinter import colorchooser
 from configparser import ConfigParser
 ''' this is some very slick code creates, readsa and writes
 to a database'''
-''' I have reused some code so the table names don't match
-what's going on in the program so First Name = Question
-Second Name = Right answer, Address = Wrong A, City = Wrong B'''
+
 root = Tk()
 root.title('Codemy.com - TreeBase')
 #root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("1500x550")
-
+list_file = 'qna_pool.csv'
 # Read our config file and get colors
 parser = ConfigParser()
 parser.read("treebase.ini")
@@ -22,6 +21,7 @@ saved_secondary_color = parser.get('colors', 'secondary_color')
 saved_highlight_color = parser.get('colors', 'highlight_color')
 
 def query_database():
+	global from_file
 	# Clear the Treeview
 	for record in my_tree.get_children():
 		my_tree.delete(record)
@@ -34,6 +34,26 @@ def query_database():
 
 	c.execute("SELECT rowid, * FROM questions")
 	records = c.fetchall()
+	# WE LACK THE INDEX NUMBERS HERE FROM THE FILE
+	records_file = get_file(list_file)
+	# make a distinct copy of this list for later mods
+	from_file = records_file[:]
+	records_file = records_file[0]
+	
+	i = 0
+	new_list = []
+	for item in records_file:
+		print(str(records_file[i]))
+		# add index numbers
+		records_file[i].insert(0, i)
+		# not sure why this empty string is there
+		records_file[i].insert(3,'')
+		new_list.append(tuple(records_file[i]))
+	
+		i += 1
+	# ok now substitute reading from file for the db read
+	records = new_list
+	# records = id#, 'question', 'right_ans', 'wrong_a', wrong_b'
 	
 	# Add our data to the screen
 	global count
@@ -59,6 +79,43 @@ def query_database():
 	# Close our connection
 	conn.close()
 
+def get_file(list_file):
+    global row_count
+    global file_error
+    try:
+        ''' call with file and get back list of lists'''
+        with open(list_file) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            rowlist = []
+            questions_list = []
+            line_count = 0
+            for row in csv_reader:
+                if line_count > 0:
+                    # avoids the header line
+                    rowlist = [row[0]] # initalizes the list
+                    rowlist.append(row[1])
+                    rowlist.append(row[2])
+                    rowlist.append(row[3])
+                    questions_list.append(rowlist)
+                    # this is a 0 based list of lists
+                    # access questions_list[q# - 1][column]
+                line_count += 1
+            #print(f'Processed {line_count} lines.')
+            row_count = line_count - 1
+            return [questions_list]
+    except FileNotFoundError:
+        print('qna_pool.csv data file not found')
+        # print message on screen
+        file_error = True
+
+def write_file():
+	for line in my_tree.get_children():
+
+		for value in my_tree.item(line)['values']:
+			print(value)
+	
+	
+
 def search_records():
 	lookup_record = search_entry.get()
 	# close the search box
@@ -73,7 +130,7 @@ def search_records():
 
 	# Create a cursor instance
 	c = conn.cursor()
-
+    # this just plain doesn't work for some reason
 	c.execute("SELECT rowid, * FROM questions WHERE question like ?", (lookup_record,))
 	records = c.fetchall()
 	
@@ -384,7 +441,7 @@ def remove_one():
 	# Add a little message box for fun
 	messagebox.showinfo("Deleted!", "Your Record Has Been Deleted!")
 
-# Remove Many records
+# Remove Many records does not work
 def remove_many():
 	# Add a little message box for fun
 	response = messagebox.askyesno("WOAH!!!!", "This Will Delete EVERYTHING SELECTED From The Table\nAre You Sure?!")
@@ -486,13 +543,13 @@ def select_record(e):
 	# Grab record values
 	values = my_tree.item(selected, 'values')
 
-	# outpus to entry boxes
+	# output to entry boxes
 	qu_entry.insert(0, values[0])
 	ra_entry.insert(0, values[1])
 	id_entry.insert(0, values[2])
 	wa_entry.insert(0, values[3])
 	wb_entry.insert(0, values[4])
-	
+# ---------------- THIS IS WHERE FILE OUTPUT NEEDS TO HAPPEN ---------------------------	
     # Update record
 def update_record():
 	# Grab the record number
@@ -502,6 +559,7 @@ def update_record():
 
 	# Update the database
 	# Create a database or connect to one that exists
+	write_file()
 	conn = sqlite3.connect('questions_new.db')
 
 	# Create a cursor instance
