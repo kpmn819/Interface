@@ -36,25 +36,31 @@ def query_database():
 	records = c.fetchall()
 	
 	# My code to fetch from file not currently used
+	
 	records_file = get_file(list_file)
-	# make a distinct copy of this list for later mods
-	from_file = records_file[:]
-	records_file = records_file[0]
-	
-	i = 0
-	new_list = []
-	for item in records_file:
-		print(str(records_file[i]))
-		# add index numbers
-		records_file[i].insert(0, i)
-		# not sure why this empty string is there
-		records_file[i].insert(3,'')
-		new_list.append(tuple(records_file[i]))
-	
-		i += 1
-    # uncomment this line to read from file not db
-	#records = new_list
-	
+	if records_file != []:
+		# make a distinct copy of this list for later mods
+		from_file = records_file[:]
+		records_file = records_file[0]
+		
+		i = 0
+		new_list = []
+		for item in records_file:
+			#print(str(records_file[i]))
+			# add index numbers
+			records_file[i].insert(0, i)
+			# not sure why this empty string is there
+			records_file[i].insert(3,'')
+			new_list.append(tuple(records_file[i]))
+		
+			i += 1
+    # us db or file?
+	if records_file != []:
+		# found the file use it instead of db
+		print('reading from file')
+		records = new_list
+	else:
+		print('reading from db')
 	
 	# Add our data to the screen
 	global count
@@ -81,45 +87,49 @@ def query_database():
 	conn.close()
 
 def get_file(list_file):
-    global row_count
-    global file_error
-    try:
-        ''' call with file and get back list of lists'''
-        with open(list_file) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            rowlist = []
-            questions_list = []
-            line_count = 0
-            for row in csv_reader:
-                if line_count > 0:
-                    # avoids the header line
-                    rowlist = [row[0]] # initalizes the list
-                    rowlist.append(row[1])
-                    rowlist.append(row[2])
-                    rowlist.append(row[3])
-                    questions_list.append(rowlist)
-                    # this is a 0 based list of lists
-                    # access questions_list[q# - 1][column]
-                line_count += 1
-            #print(f'Processed {line_count} lines.')
-            row_count = line_count - 1
-            return [questions_list]
-    except FileNotFoundError:
-        print('qna_pool.csv data file not found')
-        # print message on screen
-        file_error = True
+	global row_count
+	global file_error
+	try:
+		''' call with file and get back list of lists'''
+		with open(list_file) as csv_file:
+			csv_reader = csv.reader(csv_file, delimiter=',')
+			rowlist = []
+			questions_list = []
+			line_count = 0
+			for row in csv_reader:
+				if line_count > 0:
+					# avoids the header line
+					rowlist = [row[0]] # initalizes the list
+					rowlist.append(row[1])
+					rowlist.append(row[2])
+					rowlist.append(row[3])
+					questions_list.append(rowlist)
+					# this is a 0 based list of lists
+					# access questions_list[q# - 1][column]
+				line_count += 1
+			#print(f'Processed {line_count} lines.')
+			row_count = line_count - 1
+			return [questions_list]
+	except FileNotFoundError:		
+		print('qna_pool.csv data file not found')
+		# print message on screen
+		file_error = True
+		question_list = []
+		question_list = []
+		return question_list
 
 def write_file():
 	#initialize our final list to go to file
 	
 	csv_file = open("qna_pool.csv", "w")
+	# put in the header
 	csv_file.write('question'+','+'right answer'+','+'wrong a'+','+'wrong b')
 	csv_file.write('\n')
 	for line in my_tree.get_children():
 		each_q = []
 		i = 0
 		for value in my_tree.item(line)['values']:
-			
+			# got to skip 2 which holds the index value not used in file
 			if i != 2:
 				each_q.append(value)
 				print(value)
@@ -127,12 +137,13 @@ def write_file():
 
 			#csv_file.write(str(each_question) +'\n')
 			i += 1
+		# set up each q with linefeed
 		csv_file.write(each_q[0] +','+each_q[1] +','+each_q[2] +','+each_q[3])
 		csv_file.write('\n')
 		csv_file.close	
 
-		#final_string = final_string + each_question
-	#csv_file.write(final_string)
+		
+	
 	csv_file.close
 	
 
