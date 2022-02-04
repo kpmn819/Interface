@@ -5,8 +5,9 @@ import sqlite3
 import csv
 from tkinter import colorchooser
 from configparser import ConfigParser
-''' this is some very slick code creates, readsa and writes
-to a database'''
+''' this is some very slick code creates, reads and writes
+to a database I have hacked it greatly to allow it to read and
+write to the qna_pool.csv file'''
 
 root = Tk()
 root.title('Codemy.com - TreeBase')
@@ -22,6 +23,7 @@ saved_highlight_color = parser.get('colors', 'highlight_color')
 
 def query_database():
 	global from_file
+	global first_run
 	# Clear the Treeview
 	for record in my_tree.get_children():
 		my_tree.delete(record)
@@ -38,7 +40,7 @@ def query_database():
 	# My code to fetch from file not currently used
 	
 	records_file = get_file(list_file)
-	if records_file != []:
+	if records_file != [] and first_run == True:
 		# make a distinct copy of this list for later mods
 		from_file = records_file[:]
 		records_file = records_file[0]
@@ -55,7 +57,7 @@ def query_database():
 		
 			i += 1
     # us db or file?
-	if records_file != []:
+	if records_file != [] and first_run == True:
 		# found the file use it instead of db
 		print('reading from file')
 		records = new_list
@@ -85,6 +87,7 @@ def query_database():
 
 	# Close our connection
 	conn.close()
+	first_run = False
 
 def get_file(list_file):
 	global row_count
@@ -132,7 +135,7 @@ def write_file():
 			# got to skip 2 which holds the index value not used in file
 			if i != 2:
 				each_q.append(value)
-				print(value)
+				#print(value)
 				
 
 			#csv_file.write(str(each_question) +'\n')
@@ -724,9 +727,11 @@ select_record_button = Button(button_frame, text="Clear Entry Boxes", command=cl
 select_record_button.grid(row=0, column=7, padx=10, pady=10)
 
 # Bind the treeview
+# ButtonRelease-1 is the left mouse button
 my_tree.bind("<ButtonRelease-1>", select_record)
 
 # Run to pull data from database on start
+first_run = True
 query_database()
 
 root.mainloop()
