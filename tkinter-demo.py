@@ -34,6 +34,7 @@ label_file.place(rely=0, relx=0)
 # Frame for data entry
 entry_frame = tk.LabelFrame(root, text="Data Entry")
 entry_frame.place(height=100, width=750, rely=0.5, relx=0)
+
 # place edit fields
 qu_label = tk.Label(entry_frame, text='Questions')
 qu_label.grid(row=0, column=0, padx=10, pady=10)
@@ -54,7 +55,8 @@ wb_label = tk.Label(entry_frame, text='Wrong B')
 wb_label.grid(row=1, column=3, padx=10, pady=10)
 wb_entry = tk.Entry(entry_frame)
 wb_entry.grid(row=1, column=4,padx=10,pady=10,ipadx=50)
-## Treeview Widget
+
+# Treeview Widget
 tv1 = ttk.Treeview(frame1)
 tv1.place(relheight=.9, relwidth=1) # set the height and width of the widget to 100% of its container (frame1).
 
@@ -73,9 +75,6 @@ def File_dialog():
     label_file["text"] = filename
     label_file["text"]= 'C:/Users/kpnef/PIO-Arduino/Interface/Interface/qna_pool.csv'
     return None
-
-def select_data():
-    print('data frame click')
     
 
 def Load_excel_data():
@@ -112,6 +111,34 @@ def clear_data():
     tv1.delete(*tv1.get_children())
     return None
 
-frame1.bind("<ButtonRelease-1>", select_data)
+# Clear entry boxes
+def clear_entries():
+	# Clear entry boxes
+	qu_entry.delete(0, tk.END)
+	ra_entry.delete(0, tk.END)
+	wa_entry.delete(0, tk.END)
+	wb_entry.delete(0, tk.END)
+
+# Select Record
+def select_data(e):
+	# Clear entry boxes
+	qu_entry.delete(0, tk.END)
+	ra_entry.delete(0, tk.END)
+	wa_entry.delete(0, tk.END)
+	wb_entry.delete(0, tk.END)
+
+
+	# Grab record Number
+	selected = tv1.focus()
+	# Grab record values
+	values = tv1.item(selected, 'values')
+
+	# output to entry boxes
+	qu_entry.insert(0, values[0])
+	ra_entry.insert(0, values[1])
+	wa_entry.insert(0, values[2])
+	wb_entry.insert(0, values[3])
+
+tv1.bind("<ButtonRelease-1>", select_data)
 
 root.mainloop()
