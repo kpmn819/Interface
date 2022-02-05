@@ -19,17 +19,20 @@ frame1.place(height=250, width=1000)
 
 # Frame for open file dialog
 file_frame = tk.LabelFrame(root, text="Open File")
-file_frame.place(height=100, width=400, rely=0.75, relx=0)
+file_frame.place(height=100, width=600, rely=0.75, relx=0)
 
 # Buttons
 button1 = tk.Button(file_frame, text="Save File", command=lambda: save_file())
-button1.place(rely=0.65, relx=0.50)
+button1.place(rely=0.65, relx=0.30)
 
 button2 = tk.Button(file_frame, text="Load File", command=lambda: Load_excel_data())
-button2.place(rely=0.65, relx=0.30)
+button2.place(rely=0.65, relx=0.05)
 
 button3 = tk.Button(file_frame, text="Update Question", command=lambda: update_tree())
-button3.place(rely=0.65, relx=0.70)
+button3.place(rely=0.65, relx=0.50)
+
+button4 = tk.Button(file_frame, text="Add Question", command=lambda: add_question())
+button4.place(rely=0.65, relx=0.70)
 
 # The file/file path text
 label_file = ttk.Label(file_frame, text="No File Selected")
@@ -119,15 +122,10 @@ def save_file():
     csv_file.write('\n')
     for line in tv1.get_children():
         each_q = []
-        i = 0
+        #i = 0
         for value in tv1.item(line)['values']:
-            # got to skip 2 which holds the index value not used in file
-            
             each_q.append(value)
-                #print(value)
-
-            #csv_file.write(str(each_question) +'\n')
-            i += 1
+ 
         # set up each q with linefeed
         csv_file.write(each_q[0] +','+each_q[1] +','+each_q[2] +','+each_q[3])
         csv_file.write('\n')
@@ -135,7 +133,11 @@ def save_file():
 	
     csv_file.close
 
-    
+def add_question():
+    tv1.insert(parent='', index='end', text='', values=(qu_entry.get(), ra_entry.get(), wa_entry.get(), wb_entry.get()))
+    pass 
+
+
 def clear_data():
     tv1.delete(*tv1.get_children())
     return None
