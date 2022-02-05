@@ -22,17 +22,20 @@ file_frame = tk.LabelFrame(root, text="Open File")
 file_frame.place(height=100, width=600, rely=0.75, relx=0)
 
 # Buttons
-button1 = tk.Button(file_frame, text="Save File", command=lambda: save_file())
-button1.place(rely=0.65, relx=0.30)
-
 button2 = tk.Button(file_frame, text="Load File", command=lambda: Load_excel_data())
 button2.place(rely=0.65, relx=0.05)
 
+button1 = tk.Button(file_frame, text="Save File", command=lambda: save_file())
+button1.place(rely=0.65, relx=0.20)
+
 button3 = tk.Button(file_frame, text="Update Question", command=lambda: update_tree())
-button3.place(rely=0.65, relx=0.50)
+button3.place(rely=0.65, relx=0.30)
 
 button4 = tk.Button(file_frame, text="Add Question", command=lambda: add_question())
-button4.place(rely=0.65, relx=0.70)
+button4.place(rely=0.65, relx=0.50)
+
+button5 = tk.Button(file_frame, text="Delete Question", command=lambda: delete_question())
+button5.place(rely=0.65, relx=0.70)
 
 # The file/file path text
 label_file = ttk.Label(file_frame, text="No File Selected")
@@ -137,6 +140,10 @@ def add_question():
     tv1.insert(parent='', index='end', text='', values=(qu_entry.get(), ra_entry.get(), wa_entry.get(), wb_entry.get()))
     pass 
 
+def delete_question():
+    #print(str(tv1.focus()))
+    tv1.delete(str(tv1.focus()))
+    clear_entries()
 
 def clear_data():
     tv1.delete(*tv1.get_children())
