@@ -26,7 +26,7 @@ button2 = tk.Button(file_frame, text="Load File", command=lambda: Load_excel_dat
 button2.place(rely=0.65, relx=0.05)
 
 button1 = tk.Button(file_frame, text="Save File", command=lambda: save_file())
-button1.place(rely=0.65, relx=0.20)
+button1.place(rely=0.65, relx=0.17)
 
 button3 = tk.Button(file_frame, text="Update Question", command=lambda: update_tree())
 button3.place(rely=0.65, relx=0.30)
@@ -138,7 +138,7 @@ def save_file():
 
 def add_question():
     tv1.insert(parent='', index='end', text='', values=(qu_entry.get(), ra_entry.get(), wa_entry.get(), wb_entry.get()))
-    pass 
+    clear_entries()
 
 def delete_question():
     #print(str(tv1.focus()))
@@ -179,12 +179,39 @@ def select_data(e):
 
 def update_tree():
     print('this will update the tree entries')
+    no_commas()
     # Grab the record number
     selected = tv1.focus()
     # Update record
     tv1.item(selected, text="", values=(qu_entry.get(), ra_entry.get(), wa_entry.get(), wb_entry.get(),))
 
+def no_commas():
+    # filter out commas from entry boxes
+    qu_org = qu_entry.get()
+    qu_nc = qu_org.replace(',', '')
+    if qu_org != qu_nc:
+        qu_entry.delete(0, tk.END)
+        qu_entry.insert(0, qu_nc)
+
+    ra_org = ra_entry.get()
+    ra_nc = ra_org.replace(',', '')
+    if ra_org != ra_nc:
+        ra_entry.delete(0, tk.END)
+        ra_entry.insert(0, ra_nc)
     
+    wa_org = wa_entry.get()
+    wa_nc = wa_org.replace(',', '')
+    if wa_org != wa_nc:
+        wa_entry.delete(0, tk.END)
+        wa_entry.insert(0, wa_nc)
+    
+    wb_org = wb_entry.get()
+    wb_nc = wb_org.replace(',', '')
+    if wb_org != wb_nc:
+        wb_entry.delete(0, tk.END)
+        wb_entry.insert(0, wb_nc)
+    
+
 tv1.bind("<ButtonRelease-1>", select_data)
 
 root.mainloop()
