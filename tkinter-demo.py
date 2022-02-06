@@ -9,16 +9,16 @@ import pandas as pd
 # initalise the tkinter GUI
 root = tk.Tk()
 
-root.geometry("1000x500") # set the root dimensions
+root.geometry("1500x500") # set the root dimensions
 root.pack_propagate(False) # tells the root to not let the widgets inside it determine its size.
 root.resizable(0, 0) # makes the root window fixed in size.
 
 # Frame for TreeView
 frame1 = tk.LabelFrame(root, text="Questions and Answers")
-frame1.place(height=250, width=1000)
+frame1.place(height=250, width=1500)
 
 # Frame for open file dialog
-file_frame = tk.LabelFrame(root, text="Open File")
+file_frame = tk.LabelFrame(root, text="Editing Options")
 file_frame.place(height=100, width=600, rely=0.75, relx=0)
 
 # Buttons
@@ -43,28 +43,29 @@ label_file.place(rely=0, relx=0)
 
 # Frame for data entry
 entry_frame = tk.LabelFrame(root, text="Data Entry")
-entry_frame.place(height=100, width=750, rely=0.5, relx=0)
+entry_frame.place(height=100, width=1000, rely=0.5, relx=0)
 
 # place edit fields
+entry_width = 80
 qu_label = tk.Label(entry_frame, text='Questions')
 qu_label.grid(row=0, column=0, padx=10, pady=10)
 qu_entry = tk.Entry(entry_frame)
-qu_entry.grid(row=0, column=1,padx=10,pady=10,ipadx=50)
+qu_entry.grid(row=0, column=1,padx=10,pady=10,ipadx=entry_width)
 
 ra_label = tk.Label(entry_frame, text='Correct')
 ra_label.grid(row=0, column=3, padx=10, pady=10)
 ra_entry = tk.Entry(entry_frame)
-ra_entry.grid(row=0, column=4,padx=10,pady=10,ipadx=50)
+ra_entry.grid(row=0, column=4,padx=10,pady=10,ipadx=entry_width)
 
 wa_label = tk.Label(entry_frame, text='Wrong A')
 wa_label.grid(row=1, column=0, padx=10, pady=10)
 wa_entry = tk.Entry(entry_frame)
-wa_entry.grid(row=1, column=1,padx=10,pady=10,ipadx=50)
+wa_entry.grid(row=1, column=1,padx=10,pady=10,ipadx=entry_width)
 
 wb_label = tk.Label(entry_frame, text='Wrong B')
 wb_label.grid(row=1, column=3, padx=10, pady=10)
 wb_entry = tk.Entry(entry_frame)
-wb_entry.grid(row=1, column=4,padx=10,pady=10,ipadx=50)
+wb_entry.grid(row=1, column=4,padx=10,pady=10,ipadx=entry_width)
 
 # Treeview Widget
 tv1 = ttk.Treeview(frame1)
@@ -110,6 +111,7 @@ def Load_excel_data():
     tv1["show"] = "headings"
     for column in tv1["columns"]:
         tv1.heading(column, text=column) # let the column heading = column name
+        tv1.column(column, width= 350)
 
     df_rows = df.to_numpy().tolist() # turns the dataframe into a list of lists
     for row in df_rows:
